@@ -12,15 +12,26 @@
         }
         body { font-family: 'Segoe UI', Arial, sans-serif; text-align: center; background: #f0f2f5; margin: 0; padding: 20px; }
         
-        /* Login Screen */
-        #login-screen { 
+        /* Login & Thank You Screens */
+        #login-screen, #thank-you-screen { 
             position: fixed; inset: 0; background: rgba(0,0,0,0.9); color: white; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000;
         }
-        .form-box { background: white; color: #333; padding: 30px; border-radius: 12px; width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        #thank-you-screen { display: none; background: rgba(0, 85, 150, 0.95); z-index: 2000; }
+        
+        .form-box, .thank-you-box { 
+            background: white; color: #333; padding: 30px; border-radius: 12px; 
+            width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        }
+        
         input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
-        .btn-main { background: var(--euromaster-blue); color: white; border: none; padding: 15px 30px; cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; transition: background 0.2s; }
+        
+        .btn-main { 
+            background: var(--euromaster-blue); color: white; border: none; padding: 15px 30px; 
+            cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; transition: background 0.2s; 
+        }
         .btn-main:hover { background: var(--euromaster-red); }
+        .btn-main:disabled { background: #ccc; cursor: not-allowed; }
 
         /* Game UI */
         .header { background: var(--euromaster-blue); color: white; padding: 15px; border-radius: 8px 8px 0 0; max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; font-weight: bold; }
@@ -35,7 +46,7 @@
             z-index: 10; 
             cursor: pointer;
             box-sizing: content-box;
-            padding: 20px; /* Großzügige Toleranz */
+            padding: 20px; 
             transform: translate(-20px, -20px); 
         }
         .hotspot.found { 
@@ -68,6 +79,14 @@
         <input type="text" id="username" placeholder="Vor- und Nachname" required>
         <input type="email" id="useremail" placeholder="Euromaster E-Mail" required>
         <button class="btn-main" onclick="startGame()">Wettbewerb starten</button>
+    </div>
+</div>
+
+<div id="thank-you-screen">
+    <div class="thank-you-box">
+        <h2 style="color: var(--euromaster-blue);">Vielen Dank!</h2>
+        <p>Deine Teilnahme wurde erfolgreich registriert und dein Ergebnis in die Rangliste eingetragen.</p>
+        <button class="btn-main" onclick="location.reload()">OK - Zurück zum Start</button>
     </div>
 </div>
 
@@ -107,7 +126,7 @@
     let startTime, timerInterval;
     let foundCount = 0;
     const totalFaults = 7;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyC8teTyLoK97pdTqLbLegVDYZvd-f7CLmwdQRYz3tgLY9a8PolSI03nLf-ZmLyw9E/exec'; // <-- BITTE HIER DEINEN GOOGLE LINK EINSETZEN
+    const scriptURL = 'DEINE_WEB_APP_URL_HIER'; // <-- HIER DEINEN LINK VON GOOGLE EINSETZEN
 
     function startGame() {
         const name = document.getElementById('username').value;
@@ -127,6 +146,10 @@
     }
 
     async function finishGame() {
+        const btn = document.querySelector('.btn-finish');
+        btn.innerText = "Wird gesendet... ⏳";
+        btn.disabled = true;
+
         const finalTime = (Date.now() - startTime) / 1000;
         const name = document.getElementById('username').value;
         const email = document.getElementById('useremail').value;
@@ -137,10 +160,16 @@
                 mode: 'no-cors',
                 body: JSON.stringify({ name: name, email: email, score: foundCount, time: finalTime })
             });
-        } catch (e) { console.error(e); }
-
-        alert("Fertig! Deine Zeit: " + finalTime + "s. Dein Ergebnis wurde gespeichert.");
-        location.reload(); 
+            
+            // Erfolg: Dankeschön-Fenster zeigen
+            document.getElementById('thank-you-screen').style.display = 'flex';
+            
+        } catch (e) {
+            console.error(e);
+            alert("Fehler beim Senden. Bitte prüfe deine Internetverbindung.");
+            btn.innerText = "Ergebnis absenden & Wettbewerb beenden";
+            btn.disabled = false;
+        }
     }
 
     document.querySelectorAll('.hotspot').forEach(spot => {
@@ -155,7 +184,6 @@
                 document.getElementById('popup-text').innerText = this.getAttribute('data-info');
                 popup.style.display = 'block';
 
-                // Erscheint ab 5 gefundenen Fehlern
                 if(foundCount >= 5) {
                     document.getElementById('finish-area').style.display = 'block';
                 }
