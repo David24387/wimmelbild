@@ -19,17 +19,30 @@
         }
         .form-box { background: white; color: #333; padding: 30px; border-radius: 12px; width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
-        button { background: var(--euromaster-blue); color: white; border: none; padding: 15px 30px; cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; transition: background 0.2s; }
-        button:hover { background: var(--euromaster-red); }
+        .btn-main { background: var(--euromaster-blue); color: white; border: none; padding: 15px 30px; cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; transition: background 0.2s; }
+        .btn-main:hover { background: var(--euromaster-red); }
 
         /* Game UI */
         .header { background: var(--euromaster-blue); color: white; padding: 15px; border-radius: 8px 8px 0 0; max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; font-weight: bold; }
         .container { position: relative; display: inline-block; background: #fff; line-height: 0; border: 5px solid var(--euromaster-blue); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         img#main-image { max-width: 1000px; height: auto; display: block; }
 
-        /* Hotspots (Kein Hover-Effekt, um nichts zu verraten) */
-        .hotspot { position: absolute; border: 3px solid transparent; border-radius: 50%; z-index: 10; cursor: default; }
-        .hotspot.found { border-color: var(--euromaster-red) !important; background: rgba(226, 0, 26, 0.3); box-shadow: 0 0 20px var(--euromaster-red); }
+        /* Hotspots mit Klick-Toleranz (Padding macht die Klickfläche größer) */
+        .hotspot { 
+            position: absolute; 
+            border: 3px solid transparent; 
+            border-radius: 20%; 
+            z-index: 10; 
+            cursor: pointer;
+            box-sizing: content-box;
+            padding: 15px; /* Toleranz-Bereich um den eigentlichen Fehler */
+            transform: translate(-15px, -15px); /* Gleicht das Padding aus */
+        }
+        .hotspot.found { 
+            border-color: var(--euromaster-red) !important; 
+            background: rgba(226, 0, 26, 0.3); 
+            box-shadow: 0 0 20px var(--euromaster-red); 
+        }
 
         /* Infobox Popup */
         #info-popup { 
@@ -38,6 +51,11 @@
             border-left: 10px solid var(--euromaster-red); border-radius: 8px; 
             width: 80%; max-width: 600px; display: none; z-index: 500; font-weight: bold; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
+
+        /* Finish Button Bereich */
+        #finish-area { display: none; margin: 20px auto; max-width: 1000px; }
+        .btn-finish { background: #28a745; color: white; border: none; padding: 20px; font-size: 1.3rem; font-weight: bold; cursor: pointer; border-radius: 8px; width: 100%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -46,10 +64,10 @@
     <div class="form-box">
         <img src="LOGO_ERM_H_DE_Reifen-Werkstatt-Autoglas_RGB.png" style="width: 100%; max-width: 250px; height: auto; margin-bottom: 20px;" alt="Euromaster Logo">
         <h2 style="margin-top: 0; color: var(--euromaster-blue);">Safety Challenge</h2>
-        <p>Finde alle 8 Sicherheitsmängel so schnell wie möglich!</p>
+        <p>Finde die 8 Sicherheitsmängel!</p>
         <input type="text" id="username" placeholder="Vor- und Nachname" required>
         <input type="email" id="useremail" placeholder="Euromaster E-Mail" required>
-        <button onclick="startGame()">Wettbewerb starten</button>
+        <button class="btn-main" onclick="startGame()">Wettbewerb starten</button>
     </div>
 </div>
 
@@ -59,23 +77,27 @@
 </div>
 
 <div class="container" id="game-area">
-    <img src="wimmel.jpg" id="main-image" alt="Werkstatt">
+    <img src="image_6faf31.jpg" id="main-image" alt="Werkstatt">
 
-    <div class="hotspot" style="top: 48%; left: 52%; width: 8%; height: 35%;" data-title="LEBENSGEFAHR!" data-info="Mitarbeiter steht unter schwebender Last. Wenn die Technik versagt oder das Fahrzeug kippt, ist das Verletzungsrisiko tödlich."></div>
+    <div class="hotspot" style="top: 48%; left: 52%; width: 8%; height: 35%;" data-title="LEBENSGEFAHR!" data-info="Mitarbeiter steht unter schwebender Last. Absolutes No-Go!"></div>
     
-    <div class="hotspot" style="top: 78%; left: 38%; width: 12%; height: 10%;" data-title="RUTSCHGEFAHR!" data-info="Öl oder Flüssigkeit auf dem Boden. Einer der häufigsten Unfallgründe für Sturzverletzungen mit langen Ausfallzeiten."></div>
+    <div class="hotspot" style="top: 78%; left: 38%; width: 12%; height: 10%;" data-title="RUTSCHGEFAHR!" data-info="Öl auf dem Boden. Sturzgefahr mit Verletzungsrisiko."></div>
     
-    <div class="hotspot" style="top: 30%; left: 2%; width: 12%; height: 50%;" data-title="FLUCHTWEG BLOCKIERT!" data-info="Fluchtwege sind verstellt. Im Ernstfall zählen Sekunden für eine sichere Evakuierung."></div>
+    <div class="hotspot" style="top: 30%; left: 2%; width: 12%; height: 50%;" data-title="FLUCHTWEG BLOCKIERT!" data-info="Reifen stapeln sich vor der Notausgangstür."></div>
     
-    <div class="hotspot" style="top: 75%; left: 63%; width: 8%; height: 10%;" data-title="PSA FEHLT!" data-info="Mitarbeiter arbeitet ohne Sicherheitsschuhe. Quetschungen und Brüche der Füße sind hier vorprogrammiert."></div>
+    <div class="hotspot" style="top: 75%; left: 63%; width: 8%; height: 10%;" data-title="PSA FEHLT!" data-info="Der Mitarbeiter trägt Sneaker statt Sicherheitsschuhen."></div>
     
-    <div class="hotspot" style="top: 45%; left: 33%; width: 10%; height: 5%;" data-title="TECHNIK-FEHLER!" data-info="Hebebühne wird benutzt, aber Arme sind falsch angesetzt. Das Fahrzeug kann während der Arbeit abstürzen."></div>
+    <div class="hotspot" style="top: 45%; left: 33%; width: 10%; height: 5%;" data-title="TECHNIK-FEHLER!" data-info="Tragarme der Bühne sind falsch am Fahrzeug angesetzt."></div>
     
-    <div class="hotspot" style="top: 30%; left: 25%; width: 5%; height: 15%;" data-title="NOT-AUS BLOCKIERT!" data-info="Ist der Notaus nicht frei erreichbar, kann im Ernstfall keine rettende Maßnahme eingeleitet werden."></div>
+    <div class="hotspot" style="top: 30%; left: 25%; width: 5%; height: 15%;" data-title="NOT-AUS BLOCKIERT!" data-info="Der Notausschalter ist durch Kabel und Schläuche verdeckt."></div>
     
-    <div class="hotspot" style="top: 35%; left: 80%; width: 6%; height: 30%;" data-title="ABLENKUNG!" data-info="Handynutzung während der Arbeit führt zu Unachtsamkeit und gefährdet das gesamte Team."></div>
+    <div class="hotspot" style="top: 35%; left: 80%; width: 6%; height: 30%;" data-title="ABLENKUNG!" data-info="Handynutzung lenkt massiv von der Arbeitssicherheit ab."></div>
     
-    <div class="hotspot" style="top: 48%; left: 24%; width: 10%; height: 10%;" data-title="ROLLGEFAHR!" data-info="Fahrzeug ist nicht ordnungsgemäß gegen Wegrollen gesichert. Ein unkontrolliert rollendes Auto gefährdet alle."></div>
+    <div class="hotspot" style="top: 48%; left: 24%; width: 10%; height: 10%;" data-title="ROLLGEFAHR!" data-info="Fahrzeug im Hintergrund ist nicht mit Keilen gesichert."></div>
+</div>
+
+<div id="finish-area">
+    <button class="btn-finish" onclick="finishGame()">Ergebnis absenden & Wettbewerb beenden</button>
 </div>
 
 <div id="info-popup">
@@ -87,7 +109,7 @@
     let startTime, timerInterval;
     let foundCount = 0;
     const totalFaults = 8;
-    const scriptURL = 'DEINE_WEB_APP_URL_HIER'; // <-- HIER DEINEN LINK VON GOOGLE EINSETZEN
+    const scriptURL = 'DEINE_WEB_APP_URL_HIER'; // <-- DEINEN GOOGLE LINK HIER EINSETZEN
 
     function startGame() {
         const name = document.getElementById('username').value;
@@ -97,7 +119,7 @@
             startTime = Date.now();
             timerInterval = setInterval(updateTimer, 100);
         } else {
-            alert("Bitte gib deinen vollständigen Namen und deine Euromaster E-Mail ein!");
+            alert("Bitte gib deinen Namen und deine Euromaster Mail ein!");
         }
     }
 
@@ -106,15 +128,22 @@
         document.getElementById('timer').innerText = "Zeit: " + elapsed.toFixed(1) + "s";
     }
 
-    async function sendData(name, email, score, time) {
-        const payload = { name: name, email: email, score: score, time: time };
+    async function finishGame() {
+        const finalTime = (Date.now() - startTime) / 1000;
+        const name = document.getElementById('username').value;
+        const email = document.getElementById('useremail').value;
+
+        // Daten an Google senden
         try {
             await fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ name: name, email: email, score: foundCount, time: finalTime })
             });
-        } catch (e) { console.error("Fehler beim Senden", e); }
+        } catch (e) { console.error(e); }
+
+        alert("Fertig! Deine Zeit: " + finalTime + "s. Dein Ergebnis wurde gespeichert.");
+        location.reload(); 
     }
 
     document.querySelectorAll('.hotspot').forEach(spot => {
@@ -129,17 +158,14 @@
                 document.getElementById('popup-text').innerText = this.getAttribute('data-info');
                 popup.style.display = 'block';
 
+                // Erscheint ab 6 gefundenen Fehlern, falls man die letzten nicht findet
+                if(foundCount >= 6) {
+                    document.getElementById('finish-area').style.display = 'block';
+                }
+
                 if(foundCount === totalFaults) {
                     clearInterval(timerInterval);
-                    const finalTime = (Date.now() - startTime) / 1000;
-                    const name = document.getElementById('username').value;
-                    const email = document.getElementById('useremail').value;
-
-                    sendData(name, email, foundCount, finalTime);
-
-                    setTimeout(() => {
-                        alert("GLÜCKWUNSCH " + name.toUpperCase() + "!\nAlle Mängel gefunden.\nZeit: " + finalTime + " Sekunden.\nDeine Daten wurden an die Rangliste übertragen.");
-                    }, 500);
+                    setTimeout(() => alert("Alle 8 Fehler gefunden! Sende jetzt dein Ergebnis ab."), 300);
                 }
             }
         });
