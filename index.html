@@ -8,35 +8,35 @@
         :root {
             --euromaster-blue: #005596;
             --euromaster-red: #e2001a;
-            --euromaster-yellow: #ffed00;
+            --euromaster-yellow: #ffdd00;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #f0f2f5; margin: 0; padding: 20px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; text-align: center; background: #f0f2f5; margin: 0; padding: 20px; }
         
-        /* Login & Ranking Styles */
-        #login-screen, #ranking-screen { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85); color: white; 
+        /* Login Screen */
+        #login-screen { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); color: white; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000;
         }
-        .form-box { background: white; color: #333; padding: 30px; border-radius: 8px; width: 320px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
-        button { background: var(--euromaster-blue); color: white; border: none; padding: 12px 25px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .form-box { background: white; color: #333; padding: 30px; border-radius: 12px; width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        button { background: var(--euromaster-blue); color: white; border: none; padding: 15px 30px; cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; transition: background 0.2s; }
         button:hover { background: var(--euromaster-red); }
 
-        /* Game Layout */
-        .header { background: var(--euromaster-blue); color: white; padding: 15px; border-radius: 8px 8px 0 0; max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; }
-        .container { position: relative; display: inline-block; background: #fff; line-height: 0; border: 5px solid var(--euromaster-blue); }
-        img { max-width: 1000px; height: auto; display: block; }
+        /* Game UI */
+        .header { background: var(--euromaster-blue); color: white; padding: 15px; border-radius: 8px 8px 0 0; max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; font-weight: bold; }
+        .container { position: relative; display: inline-block; background: #fff; line-height: 0; border: 5px solid var(--euromaster-blue); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        img#main-image { max-width: 1000px; height: auto; display: block; }
 
-        /* Hotspots (Kein Hover-Effekt mehr!) */
+        /* Hotspots (Kein Hover-Effekt, um nichts zu verraten) */
         .hotspot { position: absolute; border: 3px solid transparent; border-radius: 50%; z-index: 10; cursor: default; }
-        .hotspot.found { border-color: var(--euromaster-red) !important; background: rgba(226, 0, 26, 0.3); box-shadow: 0 0 15px var(--euromaster-red); }
+        .hotspot.found { border-color: var(--euromaster-red) !important; background: rgba(226, 0, 26, 0.3); box-shadow: 0 0 20px var(--euromaster-red); }
 
-        /* Erklärungs-Popup */
+        /* Infobox Popup */
         #info-popup { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
             background: var(--euromaster-yellow); color: #333; padding: 20px; 
-            border-left: 10px solid var(--euromaster-red); border-radius: 5px; 
-            width: 80%; max-width: 600px; display: none; z-index: 500; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-left: 10px solid var(--euromaster-red); border-radius: 8px; 
+            width: 80%; max-width: 600px; display: none; z-index: 500; font-weight: bold; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
     </style>
 </head>
@@ -44,11 +44,12 @@
 
 <div id="login-screen">
     <div class="form-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Euromaster_logo.svg/512px-Euromaster_logo.svg.png" width="200" alt="Logo">
-        <h3>Safety Challenge</h3>
+        <img src="LOGO_ERM_H_DE_Reifen-Werkstatt-Autoglas_RGB.png" style="width: 100%; max-width: 250px; height: auto; margin-bottom: 20px;" alt="Euromaster Logo">
+        <h2 style="margin-top: 0; color: var(--euromaster-blue);">Safety Challenge</h2>
+        <p>Finde alle 8 Sicherheitsmängel so schnell wie möglich!</p>
         <input type="text" id="username" placeholder="Vor- und Nachname" required>
         <input type="email" id="useremail" placeholder="Euromaster E-Mail" required>
-        <button onclick="startGame()">Spiel starten</button>
+        <button onclick="startGame()">Wettbewerb starten</button>
     </div>
 </div>
 
@@ -58,43 +59,62 @@
 </div>
 
 <div class="container" id="game-area">
-    <img src="wimmel.jpg" alt="Werkstatt">
+    <img src="werkstatt.jpg" id="main-image" alt="Werkstatt">
 
-    <div class="hotspot" style="top: 48%; left: 52%; width: 8%; height: 35%;" data-title="Lebensgefahr!" data-info="Mitarbeiter steht unter schwebender Last. Wenn die Technik versagt, ist das Risiko tödlich."></div>
-    <div class="hotspot" style="top: 78%; left: 38%; width: 12%; height: 10%;" data-title="Rutschgefahr!" data-info="Öl auf dem Boden führt oft zu schweren Sturzverletzungen und langen Ausfallzeiten."></div>
-    <div class="hotspot" style="top: 30%; left: 2%; width: 12%; height: 50%;" data-title="Fluchtweg blockiert!" data-info="Im Ernstfall zählen Sekunden. Verstellte Wege verhindern eine sichere Evakuierung."></div>
-    <div class="hotspot" style="top: 75%; left: 63%; width: 8%; height: 10%;" data-title="Falsches Schuhwerk!" data-info="Ohne Sicherheitsschuhe sind Quetschungen und Brüche bei schweren Teilen vorprogrammiert."></div>
-    <div class="hotspot" style="top: 45%; left: 33%; width: 10%; height: 5%;" data-title="Hebebühne falsch angesetzt!" data-info="Ein falsch angesetzter Arm kann zum Absturz des gesamten Fahrzeugs führen."></div>
-    <div class="hotspot" style="top: 30%; left: 25%; width: 5%; height: 15%;" data-title="Notaus blockiert!" data-info="Der Notausschalter muss jederzeit frei erreichbar sein, um Maschinen sofort zu stoppen."></div>
-    <div class="hotspot" style="top: 35%; left: 80%; width: 6%; height: 30%;" data-title="Ablenkung!" data-info="Handynutzung während der Arbeit führt zu mangelnder Aufmerksamkeit und schweren Unfällen."></div>
-    <div class="hotspot" style="top: 48%; left: 24%; width: 10%; height: 10%;" data-title="Rollgefahr!" data-info="Fahrzeuge müssen immer gegen unkontrolliertes Wegrollen gesichert sein."></div>
+    <div class="hotspot" style="top: 48%; left: 52%; width: 8%; height: 35%;" data-title="LEBENSGEFAHR!" data-info="Mitarbeiter steht unter schwebender Last. Wenn die Technik versagt oder das Fahrzeug kippt, ist das Verletzungsrisiko tödlich."></div>
+    
+    <div class="hotspot" style="top: 78%; left: 38%; width: 12%; height: 10%;" data-title="RUTSCHGEFAHR!" data-info="Öl oder Flüssigkeit auf dem Boden. Einer der häufigsten Unfallgründe für Sturzverletzungen mit langen Ausfallzeiten."></div>
+    
+    <div class="hotspot" style="top: 30%; left: 2%; width: 12%; height: 50%;" data-title="FLUCHTWEG BLOCKIERT!" data-info="Fluchtwege sind verstellt. Im Ernstfall zählen Sekunden für eine sichere Evakuierung."></div>
+    
+    <div class="hotspot" style="top: 75%; left: 63%; width: 8%; height: 10%;" data-title="PSA FEHLT!" data-info="Mitarbeiter arbeitet ohne Sicherheitsschuhe. Quetschungen und Brüche der Füße sind hier vorprogrammiert."></div>
+    
+    <div class="hotspot" style="top: 45%; left: 33%; width: 10%; height: 5%;" data-title="TECHNIK-FEHLER!" data-info="Hebebühne wird benutzt, aber Arme sind falsch angesetzt. Das Fahrzeug kann während der Arbeit abstürzen."></div>
+    
+    <div class="hotspot" style="top: 30%; left: 25%; width: 5%; height: 15%;" data-title="NOT-AUS BLOCKIERT!" data-info="Ist der Notaus nicht frei erreichbar, kann im Ernstfall keine rettende Maßnahme eingeleitet werden."></div>
+    
+    <div class="hotspot" style="top: 35%; left: 80%; width: 6%; height: 30%;" data-title="ABLENKUNG!" data-info="Handynutzung während der Arbeit führt zu Unachtsamkeit und gefährdet das gesamte Team."></div>
+    
+    <div class="hotspot" style="top: 48%; left: 24%; width: 10%; height: 10%;" data-title="ROLLGEFAHR!" data-info="Fahrzeug ist nicht ordnungsgemäß gegen Wegrollen gesichert. Ein unkontrolliert rollendes Auto gefährdet alle."></div>
 </div>
 
 <div id="info-popup">
-    <div id="popup-title" style="font-size: 1.2rem; color: var(--euromaster-red);"></div>
-    <div id="popup-text"></div>
+    <div id="popup-title" style="font-size: 1.2rem; color: var(--euromaster-red); text-transform: uppercase;"></div>
+    <div id="popup-text" style="margin-top: 5px; line-height: 1.4;"></div>
 </div>
 
 <script>
     let startTime, timerInterval;
     let foundCount = 0;
     const totalFaults = 8;
+    const scriptURL = 'DEINE_WEB_APP_URL_HIER'; // <-- HIER DEINEN LINK VON GOOGLE EINSETZEN
 
     function startGame() {
         const name = document.getElementById('username').value;
         const email = document.getElementById('useremail').value;
-        if(name && email) {
+        if(name.trim() !== "" && email.includes("@")) {
             document.getElementById('login-screen').style.display = 'none';
             startTime = Date.now();
             timerInterval = setInterval(updateTimer, 100);
         } else {
-            alert("Bitte Name und E-Mail eingeben!");
+            alert("Bitte gib deinen vollständigen Namen und deine Euromaster E-Mail ein!");
         }
     }
 
     function updateTimer() {
         let elapsed = (Date.now() - startTime) / 1000;
         document.getElementById('timer').innerText = "Zeit: " + elapsed.toFixed(1) + "s";
+    }
+
+    async function sendData(name, email, score, time) {
+        const payload = { name: name, email: email, score: score, time: time };
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(payload)
+            });
+        } catch (e) { console.error("Fehler beim Senden", e); }
     }
 
     document.querySelectorAll('.hotspot').forEach(spot => {
@@ -104,7 +124,6 @@
                 foundCount++;
                 document.getElementById('score').innerText = foundCount;
                 
-                // Popup anzeigen
                 const popup = document.getElementById('info-popup');
                 document.getElementById('popup-title').innerText = this.getAttribute('data-title');
                 document.getElementById('popup-text').innerText = this.getAttribute('data-info');
@@ -113,9 +132,13 @@
                 if(foundCount === totalFaults) {
                     clearInterval(timerInterval);
                     const finalTime = (Date.now() - startTime) / 1000;
+                    const name = document.getElementById('username').value;
+                    const email = document.getElementById('useremail').value;
+
+                    sendData(name, email, foundCount, finalTime);
+
                     setTimeout(() => {
-                        alert("Hervorragend! Du hast alle Fehler in " + finalTime + "s gefunden. Dein Ergebnis wurde gespeichert.");
-                        // Hier könnte man das Ergebnis an ein Google Sheet oder per Mail senden
+                        alert("GLÜCKWUNSCH " + name.toUpperCase() + "!\nAlle Mängel gefunden.\nZeit: " + finalTime + " Sekunden.\nDeine Daten wurden an die Rangliste übertragen.");
                     }, 500);
                 }
             }
