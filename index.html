@@ -64,7 +64,7 @@
         .hotspot { 
             position: absolute; 
             border: 2px solid transparent; 
-            border-radius: 10px; /* Leicht abgerundet statt Kreis für bessere Flächenabdeckung */
+            border-radius: 10px; 
             z-index: 10; 
             cursor: pointer;
         }
@@ -158,22 +158,31 @@
     }
 
     async function finishGame() {
+        // 1. Timer SOFORT stoppen
+        clearInterval(timerInterval);
+        
+        // 2. Zeitwert sofort einfrieren
+        const finalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+
         const btn = document.querySelector('.btn-finish');
         btn.innerText = "Sende Daten...";
         btn.disabled = true;
 
-        const data = {
-            name: document.getElementById('username').value,
-            email: document.getElementById('useremail').value,
-            score: foundCount,
-            time: ((Date.now() - startTime) / 1000).toFixed(1)
-        };
+        const name = document.getElementById('username').value;
+        const email = document.getElementById('useremail').value;
+
+        // 3. Daten via URL-Parameter senden (stabilste Methode für Google Scripts)
+        const finalURL = `${scriptURL}?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&score=${foundCount}&time=${finalTime}`;
 
         try {
-            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data)});
-            document.getElementById('thank-you-screen').style.display = 'flex';
+            await fetch(finalURL, { method: 'POST', mode: 'no-cors' });
+            // Kurze Verzögerung für visuelle Bestätigung
+            setTimeout(() => {
+                document.getElementById('thank-you-screen').style.display = 'flex';
+            }, 500);
         } catch (e) {
             alert("Fehler beim Senden. Internet prüfen.");
+            btn.innerText = "ERGEBNIS ABSENDEN";
             btn.disabled = false;
         }
     }
@@ -192,7 +201,11 @@
                 setTimeout(() => { popup.style.display = 'none'; }, 3000);
 
                 if(foundCount >= 5) document.getElementById('finish-area').style.display = 'block';
-                if(foundCount === totalFaults) clearInterval(timerInterval);
+                
+                // Wenn alle 7 gefunden wurden, stoppen wir den Timer ebenfalls direkt
+                if(foundCount === totalFaults) {
+                    clearInterval(timerInterval);
+                }
             }
         });
     });
