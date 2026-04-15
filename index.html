@@ -22,6 +22,7 @@
             overflow-x: hidden;
         }
         
+        /* Overlays */
         #login-screen, #thank-you-screen { 
             position: fixed; inset: 0; background: rgba(0,0,0,0.95); color: white; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
@@ -106,7 +107,7 @@
 <div id="thank-you-screen">
     <div class="thank-you-box">
         <h2 style="color: var(--euromaster-blue);">Vielen Dank!</h2>
-        <p>Dein Ergebnis wurde gespeichert.</p>
+        <p>Dein Ergebnis wurde erfolgreich gespeichert.</p>
         <button class="btn-main" onclick="location.reload()">ZURÜCK ZUM START</button>
     </div>
 </div>
@@ -141,7 +142,8 @@
     let startTime, timerInterval;
     let foundCount = 0;
     const totalFaults = 7;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyyuoAkdV8YVByTG_vwBZ0xRUd0imtSpdfVT-xeHku_TLmGCMuCJ5A1XxazyA3YAkY/exec'; 
+    // Dein neuer Skript-Link
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbywzXVBpSY2MAuAoL2m5eypIGLEVRJX2MY2YBE2tUyy_33bYob73MHabu2Xp9q29Lo/exec'; 
 
     function startGame() {
         const name = document.getElementById('username').value;
@@ -157,34 +159,34 @@
         }
     }
 
-    async function finishGame() {
+    function finishGame() {
         // 1. Timer SOFORT stoppen
         clearInterval(timerInterval);
         
-        // 2. Zeitwert sofort einfrieren
+        // 2. Zeitwert für die Übertragung einfrieren
         const finalTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
         const btn = document.querySelector('.btn-finish');
-        btn.innerText = "Sende Daten...";
+        btn.innerText = "Sende Daten... ⏳";
         btn.disabled = true;
 
         const name = document.getElementById('username').value;
         const email = document.getElementById('useremail').value;
 
-        // 3. Daten via URL-Parameter senden (stabilste Methode für Google Scripts)
-        const finalURL = `${scriptURL}?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&score=${foundCount}&time=${finalTime}`;
+        // 3. Pixel-Trick für stabilstes Senden an Google Sheets
+        const finalURL = scriptURL + 
+                         "?name=" + encodeURIComponent(name) + 
+                         "&email=" + encodeURIComponent(email) + 
+                         "&score=" + foundCount + 
+                         "&time=" + finalTime;
 
-        try {
-            await fetch(finalURL, { method: 'POST', mode: 'no-cors' });
-            // Kurze Verzögerung für visuelle Bestätigung
-            setTimeout(() => {
-                document.getElementById('thank-you-screen').style.display = 'flex';
-            }, 500);
-        } catch (e) {
-            alert("Fehler beim Senden. Internet prüfen.");
-            btn.innerText = "ERGEBNIS ABSENDEN";
-            btn.disabled = false;
-        }
+        const img = new Image();
+        img.src = finalURL;
+
+        // 4. Nach 1 Sekunde Verzögerung den Danke-Screen zeigen
+        setTimeout(() => {
+            document.getElementById('thank-you-screen').style.display = 'flex';
+        }, 1000);
     }
 
     document.querySelectorAll('.hotspot').forEach(spot => {
@@ -202,7 +204,7 @@
 
                 if(foundCount >= 5) document.getElementById('finish-area').style.display = 'block';
                 
-                // Wenn alle 7 gefunden wurden, stoppen wir den Timer ebenfalls direkt
+                // Auch hier Timer stoppen, wenn alle 7 gefunden sind
                 if(foundCount === totalFaults) {
                     clearInterval(timerInterval);
                 }
