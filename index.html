@@ -51,6 +51,59 @@
             position: relative; 
             display: block; 
             width: 100%; 
+            max-width: 1000px; <!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Euromaster Safety Challenge</title>
+    <style>
+        :root {
+            --euromaster-blue: #005596;
+            --euromaster-red: #e2001a;
+            --euromaster-yellow: #ffdd00;
+        }
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            text-align: center; 
+            background: #f0f2f5; 
+            margin: 0; 
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        #login-screen, #thank-you-screen { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); color: white; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
+            padding: 20px;
+        }
+        #thank-you-screen { display: none; background: var(--euromaster-blue); }
+        
+        .form-box, .thank-you-box { 
+            background: white; color: #333; padding: 25px; border-radius: 12px; 
+            width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        }
+        
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        
+        .btn-main { 
+            background: var(--euromaster-blue); color: white; border: none; padding: 15px; 
+            cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; 
+        }
+
+        .header { 
+            background: var(--euromaster-blue); color: white; padding: 10px; 
+            max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; 
+            font-size: 0.9rem; font-weight: bold;
+        }
+
+        .container { 
+            position: relative; 
+            display: block; 
+            width: 100%; 
             max-width: 1000px; 
             margin: 0 auto; 
             background: #fff; 
@@ -120,12 +173,13 @@
     <img src="wimmel.jpg" id="main-image" alt="Werkstatt">
 
     <div class="hotspot" style="top: 48%; left: 52%; width: 10%; height: 35%;" data-title="LEBENSGEFAHR!" data-info="Mitarbeiter unter schwebender Last!"></div>
-    <div class="hotspot" style="top: 25%; left: 45%; width: 22%; height: 18%;" data-title="RUTSCHGEFAHR!" data-info="Öl auf dem Werkstattboden!"></div>
+    <div class="hotspot" style="top: 78%; left: 38%; width: 15%; height: 10%;" data-title="RUTSCHGEFAHR!" data-info="Öl auf dem Werkstattboden!"></div>
     <div class="hotspot" style="top: 35%; left: 5%; width: 10%; height: 40%;" data-title="BLOCKADE!" data-info="Fluchtweg durch Reifen verstellt!"></div>
-    <div class="hotspot" style="top: 25%; left: 68%; width: 15%; height: 18%;" data-title="PSA FEHLT!" data-info="Keine Sicherheitsschuhe!"></div>
+    <div class="hotspot" style="top: 75%; left: 63%; width: 10%; height: 10%;" data-title="PSA FEHLT!" data-info="Keine Sicherheitsschuhe!"></div>
     <div class="hotspot" style="top: 45%; left: 33%; width: 10%; height: 8%;" data-title="ABSTURZGEFAHR!" data-info="Hebebühne falsch angesetzt!"></div>
-    <div class="hotspot" style="top: 55%; left: 30%; width: 45%; height: 10%;" data-title="STOLPERGEFAHR!" data-info="Loses/Geflicktes Kabel am Boden!"></div>
     <div class="hotspot" style="top: 35%; left: 82%; width: 10%; height: 25%;" data-title="ABLENKUNG!" data-info="Handy am Arbeitsplatz!"></div>
+
+    <div class="hotspot" style="top: 55%; left: 30%; width: 45%; height: 15%;" data-title="STOLPERGEFAHR!" data-info="Loses/Geflicktes Kabel am Boden!"></div>
 </div>
 
 <div id="finish-area">
