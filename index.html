@@ -27,7 +27,7 @@
         .container { position: relative; display: inline-block; background: #fff; line-height: 0; border: 5px solid var(--euromaster-blue); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         img#main-image { max-width: 1000px; height: auto; display: block; }
 
-        /* Hotspots mit Klick-Toleranz (Padding macht die Klickfläche größer) */
+        /* Hotspots mit Klick-Toleranz */
         .hotspot { 
             position: absolute; 
             border: 3px solid transparent; 
@@ -35,8 +35,8 @@
             z-index: 10; 
             cursor: pointer;
             box-sizing: content-box;
-            padding: 15px; /* Toleranz-Bereich um den eigentlichen Fehler */
-            transform: translate(-15px, -15px); /* Gleicht das Padding aus */
+            padding: 20px; /* Großzügige Toleranz */
+            transform: translate(-20px, -20px); 
         }
         .hotspot.found { 
             border-color: var(--euromaster-red) !important; 
@@ -64,7 +64,7 @@
     <div class="form-box">
         <img src="LOGO_ERM_H_DE_Reifen-Werkstatt-Autoglas_RGB.png" style="width: 100%; max-width: 250px; height: auto; margin-bottom: 20px;" alt="Euromaster Logo">
         <h2 style="margin-top: 0; color: var(--euromaster-blue);">Safety Challenge</h2>
-        <p>Finde die 8 Sicherheitsmängel!</p>
+        <p>Finde die 7 Sicherheitsmängel!</p>
         <input type="text" id="username" placeholder="Vor- und Nachname" required>
         <input type="email" id="useremail" placeholder="Euromaster E-Mail" required>
         <button class="btn-main" onclick="startGame()">Wettbewerb starten</button>
@@ -72,7 +72,7 @@
 </div>
 
 <div class="header">
-    <div>Gefunden: <span id="score">0</span> / 8</div>
+    <div>Gefunden: <span id="score">0</span> / 7</div>
     <div id="timer">Zeit: 0.0s</div>
 </div>
 
@@ -92,8 +92,6 @@
     <div class="hotspot" style="top: 30%; left: 25%; width: 5%; height: 15%;" data-title="NOT-AUS BLOCKIERT!" data-info="Der Notausschalter ist durch Kabel und Schläuche verdeckt."></div>
     
     <div class="hotspot" style="top: 35%; left: 80%; width: 6%; height: 30%;" data-title="ABLENKUNG!" data-info="Handynutzung lenkt massiv von der Arbeitssicherheit ab."></div>
-    
-    <div class="hotspot" style="top: 48%; left: 24%; width: 10%; height: 10%;" data-title="ROLLGEFAHR!" data-info="Fahrzeug im Hintergrund ist nicht mit Keilen gesichert."></div>
 </div>
 
 <div id="finish-area">
@@ -108,8 +106,8 @@
 <script>
     let startTime, timerInterval;
     let foundCount = 0;
-    const totalFaults = 8;
-    const scriptURL = 'DEINE_WEB_APP_URL_HIER'; // <-- DEINEN GOOGLE LINK HIER EINSETZEN
+    const totalFaults = 7;
+    const scriptURL = 'DEINE_WEB_APP_URL_HIER'; // <-- BITTE HIER DEINEN GOOGLE LINK EINSETZEN
 
     function startGame() {
         const name = document.getElementById('username').value;
@@ -133,7 +131,6 @@
         const name = document.getElementById('username').value;
         const email = document.getElementById('useremail').value;
 
-        // Daten an Google senden
         try {
             await fetch(scriptURL, {
                 method: 'POST',
@@ -158,14 +155,14 @@
                 document.getElementById('popup-text').innerText = this.getAttribute('data-info');
                 popup.style.display = 'block';
 
-                // Erscheint ab 6 gefundenen Fehlern, falls man die letzten nicht findet
-                if(foundCount >= 6) {
+                // Erscheint ab 5 gefundenen Fehlern
+                if(foundCount >= 5) {
                     document.getElementById('finish-area').style.display = 'block';
                 }
 
                 if(foundCount === totalFaults) {
                     clearInterval(timerInterval);
-                    setTimeout(() => alert("Alle 8 Fehler gefunden! Sende jetzt dein Ergebnis ab."), 300);
+                    setTimeout(() => alert("Alle 7 Fehler gefunden! Sende jetzt dein Ergebnis ab."), 300);
                 }
             }
         });
