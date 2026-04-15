@@ -4,269 +4,308 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Euromaster Safety Challenge</title>
+
     <style>
         :root {
             --euromaster-blue: #005596;
             --euromaster-red: #e2001a;
             --euromaster-yellow: #ffdd00;
         }
-        
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            text-align: center; 
-            background: #f0f2f5; 
-            margin: 0; 
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            text-align: center;
+            background: #f0f2f5;
+            margin: 0;
             padding: 0;
             overflow-x: hidden;
         }
-        
-        #login-screen, #thank-you-screen { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); color: white; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
+
+        #login-screen,
+        #thank-you-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
             padding: 20px;
         }
-        #thank-you-screen { display: none; background: var(--euromaster-blue); }
-        
-        .form-box, .thank-you-box { 
-            background: white; color: #333; padding: 25px; border-radius: 12px; 
-            width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-        }
-        
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
-        
-        .btn-main { 
-            background: var(--euromaster-blue); color: white; border: none; padding: 15px; 
-            cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; 
+
+        #thank-you-screen {
+            display: none;
+            background: var(--euromaster-blue);
         }
 
-        .header { 
-            background: var(--euromaster-blue); color: white; padding: 10px; 
-            max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; 
-            font-size: 0.9rem; font-weight: bold;
+        .form-box,
+        .thank-you-box {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
-        .container { 
-            position: relative; 
-            display: block; 
-            width: 100%; 
-            max-width: 1000px; <!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Euromaster Safety Challenge</title>
-    <style>
-        :root {
-            --euromaster-blue: #005596;
-            --euromaster-red: #e2001a;
-            --euromaster-yellow: #ffdd00;
-        }
-        
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            text-align: center; 
-            background: #f0f2f5; 
-            margin: 0; 
-            padding: 0;
-            overflow-x: hidden;
-        }
-        
-        #login-screen, #thank-you-screen { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); color: white; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
-            padding: 20px;
-        }
-        #thank-you-screen { display: none; background: var(--euromaster-blue); }
-        
-        .form-box, .thank-you-box { 
-            background: white; color: #333; padding: 25px; border-radius: 12px; 
-            width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-        }
-        
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
-        
-        .btn-main { 
-            background: var(--euromaster-blue); color: white; border: none; padding: 15px; 
-            cursor: pointer; border-radius: 6px; font-weight: bold; width: 100%; font-size: 1.1rem; 
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
         }
 
-        .header { 
-            background: var(--euromaster-blue); color: white; padding: 10px; 
-            max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; 
-            font-size: 0.9rem; font-weight: bold;
+        .btn-main {
+            background: var(--euromaster-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.1rem;
         }
 
-        .container { 
-            position: relative; 
-            display: block; 
-            width: 100%; 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            background: #fff; 
-            line-height: 0; 
-            border: 3px solid var(--euromaster-blue); 
+        .header {
+            background: var(--euromaster-blue);
+            color: white;
+            padding: 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .container {
+            position: relative;
+            display: block;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            line-height: 0;
+            border: 3px solid var(--euromaster-blue);
             touch-action: manipulation;
         }
-        
-        img#main-image { width: 100%; height: auto; display: block; }
 
-        .hotspot { 
-            position: absolute; 
-            border: 2px solid transparent; 
-            border-radius: 10px; 
-            z-index: 10; 
+        img#main-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hotspot {
+            position: absolute;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            z-index: 10;
             cursor: pointer;
         }
-        
-        .hotspot.found { 
-            border-color: var(--euromaster-red) !important; 
-            background: rgba(226, 0, 26, 0.4); 
-            box-shadow: 0 0 10px var(--euromaster-red); 
+
+        .hotspot.found {
+            border-color: var(--euromaster-red) !important;
+            background: rgba(226, 0, 26, 0.4);
+            box-shadow: 0 0 10px var(--euromaster-red);
         }
 
-        #info-popup { 
-            position: fixed; top: 10px; left: 50%; transform: translateX(-50%); 
-            background: var(--euromaster-yellow); color: #333; padding: 15px; 
-            border-left: 5px solid var(--euromaster-red); border-radius: 8px; 
-            width: 90%; max-width: 500px; display: none; z-index: 1500; 
-            font-size: 0.9rem; font-weight: bold; box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        #info-popup {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--euromaster-yellow);
+            color: #333;
+            padding: 15px;
+            border-left: 5px solid var(--euromaster-red);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            display: none;
+            z-index: 1500;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
 
-        #finish-area { display: none; margin: 15px auto; max-width: 1000px; padding: 0 10px; }
-        .btn-finish { 
-            background: #28a745; color: white; border: none; padding: 18px; 
-            font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 8px; width: 100%; 
+        #finish-area {
+            display: none;
+            margin: 15px auto;
+            max-width: 1000px;
+            padding: 0 10px;
+        }
+
+        .btn-finish {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 100%;
         }
     </style>
 </head>
+
 <body>
 
-<div id="login-screen">
-    <div class="form-box">
-        <img src="LOGO_ERM_H_DE_Reifen-Werkstatt-Autoglas_RGB.png" style="width: 80%; max-width: 200px; height: auto; margin-bottom: 15px;" alt="Logo">
-        <h2 style="margin: 0; color: var(--euromaster-blue); font-size: 1.4rem;">Safety Challenge</h2>
-        <p style="font-size: 0.9rem;">Finde die 7 Sicherheitsmängel!</p>
-        <input type="text" id="username" placeholder="Vor- und Nachname">
-        <input type="email" id="useremail" placeholder="E-Mail Adresse">
-        <button class="btn-main" onclick="startGame()">JETZT STARTEN</button>
+    <div id="login-screen">
+        <div class="form-box">
+            <img src="LOGO_ERM_H_DE_Reifen-Werkstatt-Autoglas_RGB.png"
+                 style="width: 80%; max-width: 200px; height: auto; margin-bottom: 15px;"
+                 alt="Logo">
+
+            <h2 style="margin: 0; color: var(--euromaster-blue); font-size: 1.4rem;">
+                Safety Challenge
+            </h2>
+
+            <p style="font-size: 0.9rem;">
+                Finde die 7 Sicherheitsmängel!
+            </p>
+
+            <input type="text" id="username" placeholder="Vor- und Nachname">
+            <input type="email" id="useremail" placeholder="E-Mail Adresse">
+
+            <button class="btn-main" onclick="startGame()">JETZT STARTEN</button>
+        </div>
     </div>
-</div>
 
-<div id="thank-you-screen">
-    <div class="thank-you-box">
-        <h2 style="color: var(--euromaster-blue);">Vielen Dank!</h2>
-        <p>Dein Ergebnis wurde erfolgreich gespeichert.</p>
-        <button class="btn-main" onclick="location.reload()">ZURÜCK ZUM START</button>
+    <div id="thank-you-screen">
+        <div class="thank-you-box">
+            <h2 style="color: var(--euromaster-blue);">Vielen Dank!</h2>
+            <p>Dein Ergebnis wurde erfolgreich gespeichert.</p>
+            <button class="btn-main" onclick="location.reload()">ZURÜCK ZUM START</button>
+        </div>
     </div>
-</div>
 
-<div class="header">
-    <div id="score-display">Mängel: <span id="score">0</span> / 7</div>
-    <div id="timer">Zeit: 0.0s</div>
-</div>
+    <div class="header">
+        <div id="score-display">Mängel: <span id="score">0</span> / 7</div>
+        <div id="timer">Zeit: 0.0s</div>
+    </div>
 
-<div class="container" id="game-area">
-    <img src="wimmel.jpg" id="main-image" alt="Werkstatt">
+    <div class="container" id="game-area">
+        <img src="wimmel.jpg" id="main-image" alt="Werkstatt">
 
-    <div class="hotspot" style="top: 48%; left: 52%; width: 10%; height: 35%;" data-title="LEBENSGEFAHR!" data-info="Mitarbeiter unter schwebender Last!"></div>
-    <div class="hotspot" style="top: 78%; left: 38%; width: 15%; height: 10%;" data-title="RUTSCHGEFAHR!" data-info="Öl auf dem Werkstattboden!"></div>
-    <div class="hotspot" style="top: 35%; left: 5%; width: 10%; height: 40%;" data-title="BLOCKADE!" data-info="Fluchtweg durch Reifen verstellt!"></div>
-    <div class="hotspot" style="top: 75%; left: 63%; width: 10%; height: 10%;" data-title="PSA FEHLT!" data-info="Keine Sicherheitsschuhe!"></div>
-    <div class="hotspot" style="top: 45%; left: 33%; width: 10%; height: 8%;" data-title="ABSTURZGEFAHR!" data-info="Hebebühne falsch angesetzt!"></div>
-    <div class="hotspot" style="top: 35%; left: 82%; width: 10%; height: 25%;" data-title="ABLENKUNG!" data-info="Handy am Arbeitsplatz!"></div>
+        <!-- Hotspots -->
+        <div class="hotspot" style="top:48%; left:52%; width:10%; height:35%;" data-title="LEBENSGEFAHR!" data-info="Mitarbeiter unter schwebender Last!"></div>
+        <div class="hotspot" style="top:78%; left:38%; width:15%; height:10%;" data-title="RUTSCHGEFAHR!" data-info="Öl auf dem Werkstattboden!"></div>
+        <div class="hotspot" style="top:35%; left:5%; width:10%; height:40%;" data-title="BLOCKADE!" data-info="Fluchtweg durch Reifen verstellt!"></div>
+        <div class="hotspot" style="top:75%; left:63%; width:10%; height:10%;" data-title="PSA FEHLT!" data-info="Keine Sicherheitsschuhe!"></div>
+        <div class="hotspot" style="top:45%; left:33%; width:10%; height:8%;" data-title="ABSTURZGEFAHR!" data-info="Hebebühne falsch angesetzt!"></div>
+        <div class="hotspot" style="top:30%; left:25%; width:8%; height:12%;" data-title="NOTFALL!" data-info="Notausschalter blockiert!"></div>
+        <div class="hotspot" style="top:35%; left:82%; width:10%; height:25%;" data-title="ABLENKUNG!" data-info="Handy am Arbeitsplatz!"></div>
+    </div>
 
-    <div class="hotspot" style="top: 55%; left: 30%; width: 45%; height: 15%;" data-title="STOLPERGEFAHR!" data-info="Loses/Geflicktes Kabel am Boden!"></div>
-</div>
+    <div id="finish-area">
+        <button class="btn-finish" onclick="finishGame()">ERGEBNIS ABSENDEN</button>
+    </div>
 
-<div id="finish-area">
-    <button class="btn-finish" onclick="finishGame()">ERGEBNIS ABSENDEN</button>
-</div>
+    <div id="info-popup">
+        <div id="popup-title" style="color: var(--euromaster-red); text-transform: uppercase;"></div>
+        <div id="popup-text" style="margin-top: 5px;"></div>
+    </div>
 
-<div id="info-popup">
-    <div id="popup-title" style="color: var(--euromaster-red); text-transform: uppercase;"></div>
-    <div id="popup-text" style="margin-top: 5px;"></div>
-</div>
+    <script>
+        let startTime, timerInterval;
+        let foundCount = 0;
+        let isFinished = false;
+        let finalRecordedTime = "0.0";
 
-<script>
-    let startTime, timerInterval;
-    let foundCount = 0;
-    let isFinished = false;
-    let finalRecordedTime = "0.0";
-    const totalFaults = 7;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbywzXVBpSY2MAuAoL2m5eypIGLEVRJX2MY2YBE2tUyy_33bYob73MHabu2Xp9q29Lo/exec'; 
+        const totalFaults = 7;
 
-    function startGame() {
-        const name = document.getElementById('username').value;
-        const email = document.getElementById('useremail').value;
-        if(name.trim().length > 2 && email.includes("@")) {
-            document.getElementById('login-screen').style.display = 'none';
-            startTime = Date.now();
-            timerInterval = setInterval(() => {
-                if(!isFinished) {
-                    let currentTime = ((Date.now() - startTime) / 1000).toFixed(1);
-                    document.getElementById('timer').innerText = "Zeit: " + currentTime + "s";
-                    finalRecordedTime = currentTime;
-                }
-            }, 100);
-        } else {
-            alert("Bitte Name und E-Mail korrekt ausfüllen.");
-        }
-    }
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbywzXVBpSY2MAuAoL2m5eypIGLEVRJX2MY2YBE2tUyy_33bYob73MHabu2Xp9q29Lo/exec';
 
-    function finishGame() {
-        clearInterval(timerInterval);
-        isFinished = true;
+        function startGame() {
+            const name = document.getElementById('username').value;
+            const email = document.getElementById('useremail').value;
 
-        const btn = document.querySelector('.btn-finish');
-        btn.innerText = "Wird gesendet... ⏳";
-        btn.disabled = true;
+            if (name.trim().length > 2 && email.includes("@")) {
+                document.getElementById('login-screen').style.display = 'none';
 
-        const name = document.getElementById('username').value;
-        const email = document.getElementById('useremail').value;
+                startTime = Date.now();
 
-        const finalURL = scriptURL + 
-                         "?name=" + encodeURIComponent(name) + 
-                         "&email=" + encodeURIComponent(email) + 
-                         "&score=" + foundCount + 
-                         "&time=" + finalRecordedTime;
-
-        const img = new Image();
-        img.src = finalURL;
-
-        setTimeout(() => {
-            document.getElementById('thank-you-screen').style.display = 'flex';
-        }, 1000);
-    }
-
-    document.querySelectorAll('.hotspot').forEach(spot => {
-        spot.addEventListener('click', function(e) {
-            if (!this.classList.contains('found')) {
-                this.classList.add('found');
-                foundCount++;
-                document.getElementById('score').innerText = foundCount;
-                
-                const popup = document.getElementById('info-popup');
-                document.getElementById('popup-title').innerText = this.getAttribute('data-title');
-                document.getElementById('popup-text').innerText = this.getAttribute('data-info');
-                popup.style.display = 'block';
-                setTimeout(() => { popup.style.display = 'none'; }, 3000);
-
-                if(foundCount >= 1) {
-                    document.getElementById('finish-area').style.display = 'block';
-                }
-                
-                if(foundCount === totalFaults) {
-                    clearInterval(timerInterval);
-                    isFinished = true;
-                }
+                timerInterval = setInterval(() => {
+                    if (!isFinished) {
+                        let currentTime = ((Date.now() - startTime) / 1000).toFixed(1);
+                        document.getElementById('timer').innerText = "Zeit: " + currentTime + "s";
+                        finalRecordedTime = currentTime;
+                    }
+                }, 100);
+            } else {
+                alert("Bitte Name und E-Mail korrekt ausfüllen.");
             }
+        }
+
+        function finishGame() {
+            clearInterval(timerInterval);
+            isFinished = true;
+
+            const btn = document.querySelector('.btn-finish');
+            btn.innerText = "Wird gesendet... ⏳";
+            btn.disabled = true;
+
+            const name = document.getElementById('username').value;
+            const email = document.getElementById('useremail').value;
+
+            const finalURL =
+                scriptURL +
+                "?name=" + encodeURIComponent(name) +
+                "&email=" + encodeURIComponent(email) +
+                "&score=" + foundCount +
+                "&time=" + finalRecordedTime;
+
+            const img = new Image();
+            img.src = finalURL;
+
+            setTimeout(() => {
+                document.getElementById('thank-you-screen').style.display = 'flex';
+            }, 1000);
+        }
+
+        document.querySelectorAll('.hotspot').forEach(spot => {
+            spot.addEventListener('click', function () {
+                if (!this.classList.contains('found')) {
+                    this.classList.add('found');
+
+                    foundCount++;
+                    document.getElementById('score').innerText = foundCount;
+
+                    const popup = document.getElementById('info-popup');
+                    document.getElementById('popup-title').innerText = this.getAttribute('data-title');
+                    document.getElementById('popup-text').innerText = this.getAttribute('data-info');
+
+                    popup.style.display = 'block';
+
+                    setTimeout(() => {
+                        popup.style.display = 'none';
+                    }, 3000);
+
+                    if (foundCount >= 1) {
+                        document.getElementById('finish-area').style.display = 'block';
+                    }
+
+                    if (foundCount === totalFaults) {
+                        clearInterval(timerInterval);
+                        isFinished = true;
+                    }
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
