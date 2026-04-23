@@ -184,13 +184,26 @@
         </div>
     </div>
 
-    <div id="thank-you-screen">
-        <div class="thank-you-box">
-            <h2 style="color: var(--euromaster-blue);">Vielen Dank!</h2>
-            <p>Dein Ergebnis wurde erfolgreich gespeichert.</p>
-            <button class="btn-main" onclick="location.reload()">ZURÜCK ZUM START</button>
-        </div>
+<div id="thank-you-screen">
+    <div class="thank-you-box">
+        <h2 style="color: var(--euromaster-blue);">Vielen Dank!</h2>
+        <p>Dein Ergebnis wurde erfolgreich gespeichert.</p>
+
+        <!-- Button: Safety Video -->
+        <button class="btn-main" 
+            style="margin-bottom:10px;"
+            onclick="window.open('https://drive.google.com/file/d/1iaLXhgwxd3tT30aSKOoqfI2nLFqRRR50/view?usp=drive_link', '_blank')">
+            ▶ SAFETY VIDEO ANSEHEN
+        </button>
+
+        <!-- Button: Neustart -->
+        <button class="btn-main" 
+            style="background:#666;"
+            onclick="location.reload()">
+            🔄 ZURÜCK ZUM START
+        </button>
     </div>
+</div>
 
     <div class="header">
         <div id="score-display">Mängel: <span id="score">0</span> / 7</div>
